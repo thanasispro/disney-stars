@@ -12,7 +12,7 @@ export const disneyAPI = createApi({
                 params: {
                     page,
                     pageSize,
-                    ...(searchKey && { name: searchKey, films: searchKey }),
+                    ...(searchKey && { name: searchKey, tvShows: searchKey }),
                 },
             }),
         })

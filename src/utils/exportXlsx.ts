@@ -4,8 +4,9 @@ import { type DisneyCharacter } from '../types/disney'
 export function exportCharactersToXlsx(characters: DisneyCharacter[]): void {
     const rows = characters.map((c) => ({
         Name: c.name,
-        'Film Count': c.films.length,
+        'Film Count': c.films.length + c.shortFilms.length,
         Films: c.films.join(', '),
+        'Short Films': c.shortFilms.join(', '),
     }))
 
     const worksheet = XLSX.utils.json_to_sheet(rows)
