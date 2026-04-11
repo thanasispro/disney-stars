@@ -40,8 +40,10 @@ export const CharacterTable = ({
                     <tr>
                         <th className="px-4 py-3 w-12">#</th>
                         <th
-                            className="px-4 py-3 cursor-pointer select-none hover:text-blue-600 dark:hover:text-blue-400"
+                            className="px-4 py-3 cursor-pointer select-none hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                             onClick={onSort}
+                            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSort()}
+                            tabIndex={0}
                             aria-sort={sortDirection === 'asc' ? 'ascending' : 'descending'}
                         >
                             Character {sortDirection === 'asc' ? '↑' : '↓'}
@@ -67,7 +69,11 @@ export const CharacterTable = ({
                             <tr
                                 key={character._id}
                                 onClick={() => onRowClick(character)}
-                                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onRowClick(character)}
+                                tabIndex={0}
+                                role="button"
+                                aria-label={`View details for ${character.name}`}
+                                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                             >
                                 <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index + 1}</td>
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
