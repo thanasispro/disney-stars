@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx'
 import { type DisneyCharacter } from '../types/disney'
 
-export function exportCharactersToXlsx(characters: DisneyCharacter[]): void {
+export const exportCharactersToXlsx = (characters: DisneyCharacter[]): void => {
     const rows = characters.map((c) => ({
         Name: c.name,
         'Film Count': c.films.length + c.shortFilms.length,
