@@ -24,10 +24,13 @@ export interface DisneyApiResponse {
     data: DisneyCharacter[]
 }
 
+export type SearchType = 'name' | 'tvShows'
+
 export interface CharacterQueryParams {
     page: number
     pageSize: number
     searchKey?: string
+    searchType?: SearchType
 }
 
 export type SortDirection = 'asc' | 'desc'

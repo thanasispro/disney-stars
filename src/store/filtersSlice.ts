@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { type SortDirection } from '../types/disney'
+import { type SortDirection, type SearchType } from '../types/disney'
 
 interface FiltersState {
     searchKey: string
+    searchType: SearchType
     page: number
     pageSize: number
     sortDirection: SortDirection
@@ -10,6 +11,7 @@ interface FiltersState {
 
 const initialState: FiltersState = {
     searchKey: '',
+    searchType: 'name',
     page: 1,
     pageSize: 50,
     sortDirection: 'asc',
@@ -21,6 +23,11 @@ const filtersSlice = createSlice({
     reducers: {
         setSearchKey: (state, action: PayloadAction<string>) => {
             state.searchKey = action.payload
+            state.page = 1
+        },
+        setSearchType: (state, action: PayloadAction<SearchType>) => {
+            state.searchType = action.payload
+            state.searchKey = ''
             state.page = 1
         },
         setPage: (state, action: PayloadAction<number>) => {
@@ -36,5 +43,5 @@ const filtersSlice = createSlice({
     },
 })
 
-export const { setSearchKey, setPage, setPageSize, toggleSort } = filtersSlice.actions
+export const { setSearchKey, setSearchType, setPage, setPageSize, toggleSort } = filtersSlice.actions
 export default filtersSlice.reducer
