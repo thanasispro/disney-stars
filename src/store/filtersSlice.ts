@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SortDirection } from '../types/disney'
+import { type SortDirection } from '../types/disney'
 
 interface FiltersState {
     searchKey: string

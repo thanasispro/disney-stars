@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { DisneyCharacter } from '../types/disney'
+import { type DisneyCharacter } from '../types/disney'
 
 interface ModalState {
     selectedCharacter: DisneyCharacter | null

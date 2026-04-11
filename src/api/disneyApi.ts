@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CharacterQueryParams, DisneyApiResponse } from "../types/disney";
+import { type CharacterQueryParams, type DisneyApiResponse } from "../types/disney";
 
 
 export const disneyAPI = createApi({
