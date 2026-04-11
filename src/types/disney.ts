@@ -27,8 +27,7 @@ export interface DisneyApiResponse {
 export interface CharacterQueryParams {
     page: number
     pageSize: number
-    name?: string
-    films?: string
+    searchKey?: string
 }
 
 export type SortDirection = 'asc' | 'desc'

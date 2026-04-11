@@ -7,13 +7,12 @@ export const disneyAPI = createApi({
     baseQuery: fetchBaseQuery({baseUrl: "https://api.disneyapi.dev"}),
     endpoints: (builder) => ({
         getCharacters: builder.query<DisneyApiResponse, CharacterQueryParams>({
-            query: ({ page, pageSize, name, films }) => ({
+            query: ({ page, pageSize, searchKey }) => ({
                 url: '/character',
                 params: {
                     page,
                     pageSize,
-                    ...(name && { name }),
-                    ...(films && { films }),
+                    ...(searchKey && { name: searchKey, films: searchKey }),
                 },
             }),
         })
