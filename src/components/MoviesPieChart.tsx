@@ -5,10 +5,12 @@ import { type DisneyCharacter } from '../types/disney'
 import { exportCharactersToXlsx } from '../utils/exportXlsx'
 import { Button } from './Button'
 
+const MAX_SLICES = 30
+
 export const MoviesPieChart = ({ characters }: { characters: DisneyCharacter[] }) => {
     const [includeShortFilms, setIncludeShortFilms] = useState(false)
 
-    const data = characters
+    const all = characters
         .map((c) => ({
             name: c.name,
             y: c.films.length + (includeShortFilms ? c.shortFilms.length : 0),
@@ -16,6 +18,15 @@ export const MoviesPieChart = ({ characters }: { characters: DisneyCharacter[] }
             shortFilms: c.shortFilms,
         }))
         .filter((c) => c.y > 0)
+        .sort((a, b) => b.y - a.y)
+
+    const top = all.slice(0, MAX_SLICES)
+    const others = all.slice(MAX_SLICES)
+    const othersTotal = others.reduce((sum, c) => sum + c.y, 0)
+
+    const data = othersTotal > 0
+        ? [...top, { name: `Others (${others.length})`, y: othersTotal, films: [], shortFilms: [] }]
+        : top
 
     const isDark = document.documentElement.classList.contains('dark')
     const labelColor = isDark ? '#d1d5db' : '#374151'
@@ -27,13 +38,13 @@ export const MoviesPieChart = ({ characters }: { characters: DisneyCharacter[] }
             height: window.innerWidth < 768 ? 280 : 380,
             animation: { duration: 800, easing: 'easeOutBounce' },
         },
-
         title: { text: undefined },
         tooltip: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             formatter(this: any) {
                 const point = this.point as Highcharts.Point & { films: string[]; shortFilms: string[] }
-                const filmList = point.films.join(', ') || '—'
+                if (!point.films.length) return `<b>${this.point.name}</b><br/>${this.percentage?.toFixed(1)}% of total`
+                const filmList = point.films.join(', ')
                 const shortFilmList = includeShortFilms && point.shortFilms.length
                     ? `<br/><b>Short Films:</b> ${point.shortFilms.join(', ')}`
                     : ''

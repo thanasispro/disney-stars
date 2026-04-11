@@ -14,9 +14,8 @@ export interface DisneyCharacter {
 export interface DisneyApiInfo {
     count: number
     totalPages: number
-    currentPage: number
     nextPage: string | null
-    prevPage: string | null
+    previousPage: string | null
 }
 
 export interface DisneyApiResponse {

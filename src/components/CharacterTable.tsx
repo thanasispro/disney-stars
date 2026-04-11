@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { type DisneyCharacter, type SortDirection } from '../types/disney'
 import { ChipList } from './ChipList'
 
@@ -33,10 +34,16 @@ export const CharacterTable = ({
     onSort: () => void
     onRowClick: (character: DisneyCharacter) => void
 }) => {
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        scrollRef.current?.scrollTo({ top: 0 })
+    }, [characters])
+
     return (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+        <div ref={scrollRef} className="overflow-x-auto overflow-y-auto max-h-150 rounded-lg border border-gray-200 dark:border-gray-700">
             <table className="w-full text-sm text-left">
-                <thead className="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 uppercase text-xs">
+                <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 uppercase text-xs">
                     <tr>
                         <th className="px-4 py-3 w-12">#</th>
                         <th
@@ -73,7 +80,7 @@ export const CharacterTable = ({
                                 tabIndex={0}
                                 role="button"
                                 aria-label={`View details for ${character.name}`}
-                                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                                className={`cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50/50 dark:bg-gray-800/30'}`}
                             >
                                 <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index + 1}</td>
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">

@@ -2,3 +2,12 @@
 
 /* Class-based dark mode — toggled by adding .dark to <html> */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+    animation: slide-up 0.25s ease-out;
+}

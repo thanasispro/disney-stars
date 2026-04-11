@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { type CharacterQueryParams, type DisneyApiResponse } from "../types/disney";
+import { type CharacterQueryParams, type DisneyCharacter, type DisneyApiInfo, type DisneyApiResponse } from "../types/disney";
+
+type RawApiResponse = {
+    info: DisneyApiInfo
+    data: DisneyCharacter | DisneyCharacter[]
+}
 
 export const disneyAPI = createApi({
     reducerPath: "disneyAPI",
@@ -14,6 +19,10 @@ export const disneyAPI = createApi({
                     ...(searchKey && searchType === 'name' && { name: searchKey }),
                     ...(searchKey && searchType === 'tvShows' && { tvShows: searchKey }),
                 },
+            }),
+            transformResponse: (response: RawApiResponse): DisneyApiResponse => ({
+                info: response.info,
+                data: Array.isArray(response.data) ? response.data : [response.data],
             }),
         })
     })

@@ -19,14 +19,17 @@ export const SearchForm = () => {
                 <option value="tvShows">TV Show</option>
             </select>
 
-            <input
-                type="text"
-                value={searchKey}
-                onChange={(e) => dispatch(setSearchKey(e.target.value))}
-                placeholder={searchType === 'name' ? 'Search by character name…' : 'Search by TV show…'}
-                className="flex-1 sm:w-64 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm placeholder-gray-400"
-                aria-label="Search"
-            />
+            <div className="relative flex-1 sm:w-64">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">🔍</span>
+                <input
+                    type="text"
+                    value={searchKey}
+                    onChange={(e) => dispatch(setSearchKey(e.target.value))}
+                    placeholder={searchType === 'name' ? 'Search by character name…' : 'Search by TV show…'}
+                    className="w-full pl-8 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm placeholder-gray-400"
+                    aria-label="Search"
+                />
+            </div>
         </div>
     )
 }
