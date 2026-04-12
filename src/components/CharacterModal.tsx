@@ -42,10 +42,10 @@ export const CharacterModal = ({
                 ref={modalRef}
                 tabIndex={-1}
                 onClick={(e) => e.stopPropagation()}
-                className="w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-t-2xl sm:rounded-2xl outline-none shadow-2xl animate-slide-up"
+                className="w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl outline-none shadow-2xl animate-slide-up border border-blue-100 dark:border-slate-700"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-blue-100 dark:border-slate-700">
                     <div className="flex items-center gap-4">
                         {character.imageUrl && (
                             <img

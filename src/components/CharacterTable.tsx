@@ -41,9 +41,9 @@ export const CharacterTable = ({
     }, [characters])
 
     return (
-        <div ref={scrollRef} className="overflow-x-auto overflow-y-auto max-h-150 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div ref={scrollRef} className="overflow-x-auto overflow-y-auto max-h-150 rounded-lg border border-blue-100 dark:border-slate-700">
             <table className="w-full text-sm text-left">
-                <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 uppercase text-xs">
+                <thead className="sticky top-0 z-10 bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-slate-300 uppercase text-xs">
                     <tr>
                         <th className="px-4 py-3 w-12">#</th>
                         <th
@@ -80,7 +80,7 @@ export const CharacterTable = ({
                                 tabIndex={0}
                                 role="button"
                                 aria-label={`View details for ${character.name}`}
-                                className={`cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50/50 dark:bg-gray-800/30'}`}
+                                className={`cursor-pointer hover:bg-indigo-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400 ${index % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-blue-50/40 dark:bg-slate-800/40'}`}
                             >
                                 <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index + 1}</td>
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">

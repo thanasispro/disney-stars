@@ -33,7 +33,7 @@ export const Pagination = ({
                     value={pageSize}
                     onChange={(e) => dispatch(setPageSize(Number(e.target.value)))}
                     disabled={isLoading}
-                    className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm disabled:opacity-50"
+                    className="px-3 py-1.5 rounded-lg border border-blue-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm disabled:opacity-50"
                     aria-label="Results per page"
                 >
                     {[10, 20, 50, 100, 200, 500].map((n) => (
@@ -64,7 +64,7 @@ export const Pagination = ({
                                     key={p}
                                     onClick={() => dispatch(setPage(p as number))}
                                     disabled={isLoading}
-                                    variant={p === page ? 'primary' : 'ghost'}
+                                    variant={p === page ? 'gold' : 'ghost'}
                                     className="w-8 h-8 px-0! py-0! flex items-center justify-center"
                                 >
                                     {p}

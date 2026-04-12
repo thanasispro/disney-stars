@@ -1,0 +1,7 @@
+import { expect } from 'vitest'
+import * as matchers from '@testing-library/jest-dom/matchers'
+
+expect.extend(matchers)
+
+// jsdom does not implement scrollTo
+Element.prototype.scrollTo = () => {}

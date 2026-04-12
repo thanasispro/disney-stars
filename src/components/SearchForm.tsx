@@ -12,7 +12,7 @@ export const SearchForm = () => {
             <select
                 value={searchType}
                 onChange={(e) => dispatch(setSearchType(e.target.value as SearchType))}
-                className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                className="px-3 py-2 rounded-lg border border-blue-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm"
                 aria-label="Search by"
             >
                 <option value="name">Name</option>
@@ -26,7 +26,7 @@ export const SearchForm = () => {
                     value={searchKey}
                     onChange={(e) => dispatch(setSearchKey(e.target.value))}
                     placeholder={searchType === 'name' ? 'Search by character name…' : 'Search by TV show…'}
-                    className="w-full pl-8 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm placeholder-gray-400"
+                    className="w-full pl-8 pr-3 py-2 rounded-lg border border-blue-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm placeholder-gray-400"
                     aria-label="Search"
                 />
             </div>

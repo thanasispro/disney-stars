@@ -4,20 +4,24 @@ import { toggleTheme } from '../store/themeSlice'
 
 export const Header = () => {
     const dispatch = useAppDispatch()
-    const theme = useAppSelector((state) => state.theme.theme)
-    const isDark = theme === 'dark'
+    const isDark = useAppSelector((state) => state.theme.theme) === 'dark'
 
     return (
-        <header className="w-full px-6 py-4 flex items-center justify-between bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+        <header className="w-full px-6 py-4 flex items-center justify-between bg-linear-to-r from-blue-950 via-blue-900 to-indigo-900 border-b border-blue-800 shadow-lg">
             <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">✨ Disney Stars</h1>
-                <p className="hidden sm:block text-sm text-gray-500 dark:text-gray-400">Explore Disney characters</p>
+                <h1
+                    style={{ fontFamily: "'Cinzel', serif" }}
+                    className="text-xl font-bold text-white tracking-widest"
+                >
+                    ✨ Disney Stars
+                </h1>
+                <p className="hidden sm:block text-sm text-blue-300 mt-0.5">Explore Disney characters</p>
             </div>
 
             <button
                 onClick={() => dispatch(toggleTheme())}
                 aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                className="relative inline-flex items-center w-12 h-6 rounded-full transition-colors cursor-pointer bg-gray-300 dark:bg-blue-600"
+                className={`relative inline-flex items-center w-12 h-6 rounded-full transition-colors cursor-pointer ${isDark ? 'bg-amber-400' : 'bg-white/30'}`}
             >
                 <span className={`inline-block w-5 h-5 bg-white rounded-full shadow transform transition-transform ${isDark ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>

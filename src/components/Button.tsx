@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost'
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'gold'
 
 export const Button = ({
     children,
@@ -23,6 +23,7 @@ export const Button = ({
         primary: 'bg-blue-600 text-white hover:bg-blue-700',
         secondary: 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
         ghost: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+        gold: 'bg-amber-400 text-blue-950 font-semibold hover:bg-amber-300',
     }
 
     return (

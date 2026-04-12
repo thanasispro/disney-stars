@@ -6,7 +6,7 @@ const Chip = ({ label, maxChars }: { label: string; maxChars?: number }) => {
         <span className="relative group inline-block">
             <span
                 aria-label={label}
-                className="inline-block px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 cursor-default"
+                className="inline-block px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 cursor-default"
             >
                 {truncated}
             </span>
@@ -35,8 +35,8 @@ export const ChipList = ({
 
     return (
         <div className="flex flex-wrap gap-1">
-            {visible.map((item) => (
-                <Chip key={item} label={item} maxChars={maxChars} />
+            {visible.map((item, i) => (
+                <Chip key={`${item}-${i}`} label={item} maxChars={maxChars} />
             ))}
             {remaining > 0 && (
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
