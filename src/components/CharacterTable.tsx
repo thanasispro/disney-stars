@@ -4,7 +4,7 @@ import { ChipList } from './ChipList'
 
 const SkeletonRow = ({ index }: { index: number }) => (
     <tr className="animate-pulse">
-        <td className="px-4 py-3 text-gray-300 dark:text-gray-600">{index}</td>
+        <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index}</td>
         <td className="px-4 py-3">
             <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-700" />
         </td>
@@ -82,7 +82,7 @@ export const CharacterTable = ({
                                 aria-label={`View details for ${character.name}`}
                                 className={`cursor-pointer hover:bg-indigo-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400 ${index % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-blue-50/40 dark:bg-slate-800/40'}`}
                             >
-                                <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index + 1}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{index + 1}</td>
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
                                     {character.name}
                                 </td>

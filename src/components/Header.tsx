@@ -11,7 +11,7 @@ export const Header = () => {
             <div>
                 <h1
                     style={{ fontFamily: "'Cinzel', serif" }}
-                    className="text-xl font-bold text-white tracking-widest"
+                    className="text-2xl font-bold text-white tracking-widest"
                 >
                     ✨ Disney Stars
                 </h1>
