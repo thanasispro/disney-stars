@@ -3,6 +3,7 @@ import { disneyAPI } from '../api/disneyApi'
 import filtersReducer from './filtersSlice'
 import themeReducer from './themeSlice'
 import modalReducer from './modalSlice'
+import { urlSyncMiddleware } from './urlSyncMiddleware'
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,7 @@ export const store = configureStore({
         [disneyAPI.reducerPath]: disneyAPI.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(disneyAPI.middleware),
+        getDefaultMiddleware().concat(disneyAPI.middleware, urlSyncMiddleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

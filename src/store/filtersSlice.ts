@@ -10,13 +10,15 @@ interface FiltersState {
     sortDirection: SortDirection
 }
 
+const params = new URLSearchParams(window.location.search)
+
 const initialState: FiltersState = {
-    searchKey: '',
-    searchType: 'name',
-    tvShowFilters: [],
-    page: 1,
+    searchKey: params.get('q') ?? '',
+    searchType: (params.get('type') as SearchType) ?? 'name',
+    tvShowFilters: params.get('shows')?.split(',').filter(Boolean) ?? [],
+    page: Number(params.get('page')) || 1,
     pageSize: 50,
-    sortDirection: 'asc',
+    sortDirection: (params.get('sort') as SortDirection) ?? 'asc',
 }
 
 const filtersSlice = createSlice({
