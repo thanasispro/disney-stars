@@ -6,6 +6,8 @@ export type RawApiResponse = {
     data: DisneyCharacter | DisneyCharacter[]
 }
 
+export const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 export const normalizeResponse = (response: RawApiResponse): DisneyApiResponse => ({
     info: response.info,
     data: Array.isArray(response.data) ? response.data : [response.data],
@@ -21,8 +23,8 @@ export const disneyAPI = createApi({
                 params: {
                     page,
                     pageSize,
-                    ...(searchKey && searchType === 'name' && { name: searchKey }),
-                    ...(searchKey && searchType === 'tvShows' && { tvShows: searchKey }),
+                    ...(searchKey && searchType === 'name' && { name: escapeRegex(searchKey) }),
+                    ...(searchKey && searchType === 'tvShows' && { tvShows: escapeRegex(searchKey) }),
                 },
             }),
             transformResponse: normalizeResponse,

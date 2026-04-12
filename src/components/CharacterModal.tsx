@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import { type DisneyCharacter } from '../types/disney'
 import { ChipList } from './ChipList'
 import { Button } from './Button'
+import { useAppDispatch } from '../hooks/useAppDispatch'
+import { addTvShowFilter } from '../store/filtersSlice'
 
 export const CharacterModal = ({
     character,
@@ -10,7 +12,13 @@ export const CharacterModal = ({
     character: DisneyCharacter
     onClose: () => void
 }) => {
+    const dispatch = useAppDispatch()
     const modalRef = useRef<HTMLDivElement>(null)
+
+    const handleTvShowClick = (show: string) => {
+        dispatch(addTvShowFilter(show))
+        onClose()
+    }
 
     // Lock body scroll
     useEffect(() => {
@@ -65,7 +73,7 @@ export const CharacterModal = ({
                         <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
                             TV Shows ({character.tvShows.length})
                         </h3>
-                        <ChipList items={character.tvShows} />
+                        <ChipList items={character.tvShows} onItemClick={handleTvShowClick} />
                     </section>
 
                     <section>

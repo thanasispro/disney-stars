@@ -1,12 +1,17 @@
-const Chip = ({ label, maxChars }: { label: string; maxChars?: number }) => {
+const Chip = ({ label, maxChars, onClick }: { label: string; maxChars?: number; onClick?: (label: string) => void }) => {
     const isTruncated = !!maxChars && label.length > maxChars
     const truncated = isTruncated ? label.slice(0, maxChars) + '…' : label
+    const isClickable = !!onClick
 
     return (
         <span className="relative group inline-block">
             <span
                 aria-label={label}
-                className="inline-block px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 cursor-default"
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onClick={() => onClick?.(label)}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(label)}
+                className={`inline-block px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 ${isClickable ? 'cursor-pointer hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors' : 'cursor-default'}`}
             >
                 {truncated}
             </span>
@@ -23,10 +28,12 @@ export const ChipList = ({
     items,
     maxVisible,
     maxChars,
+    onItemClick,
 }: {
     items: string[]
     maxVisible?: number
     maxChars?: number
+    onItemClick?: (item: string) => void
 }) => {
     if (!items.length) return <span className="text-gray-400 text-xs">—</span>
 
@@ -36,7 +43,7 @@ export const ChipList = ({
     return (
         <div className="flex flex-wrap gap-1">
             {visible.map((item, i) => (
-                <Chip key={`${item}-${i}`} label={item} maxChars={maxChars} />
+                <Chip key={`${item}-${i}`} label={item} maxChars={maxChars} onClick={onItemClick} />
             ))}
             {remaining > 0 && (
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300">

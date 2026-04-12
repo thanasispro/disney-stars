@@ -14,11 +14,9 @@ const getPageNumbers = (current: number, total: number): (number | '…')[] => {
 export const Pagination = ({
     totalPages,
     isLoading,
-    isSearching,
 }: {
     totalPages?: number
     isLoading: boolean
-    isSearching: boolean
 }) => {
     const dispatch = useAppDispatch()
     const { page, pageSize } = useAppSelector((state) => state.filters)
@@ -43,13 +41,13 @@ export const Pagination = ({
                 <span className="text-sm text-gray-500 dark:text-gray-400">per page</span>
             </div>
 
-            {!isSearching && totalPages && (
+            {totalPages && (
                 <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                     Page {page} of {totalPages}
                 </span>
             )}
 
-            {!isSearching && totalPages && totalPages > 1 && (
+            {totalPages && totalPages > 1 && (
                 <div className="flex items-center gap-1">
                     <Button onClick={() => dispatch(setPage(page - 1))} disabled={page === 1 || isLoading} ariaLabel="Previous page">
                         ← Prev
