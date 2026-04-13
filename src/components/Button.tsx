@@ -8,6 +8,7 @@ export const Button = ({
     disabled,
     variant = 'secondary',
     ariaLabel,
+    ariaCurrent,
     className = '',
 }: {
     children: ReactNode
@@ -15,6 +16,7 @@ export const Button = ({
     disabled?: boolean
     variant?: ButtonVariant
     ariaLabel?: string
+    ariaCurrent?: boolean
     className?: string
 }) => {
     const base = 'px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed'
@@ -31,6 +33,7 @@ export const Button = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
+            aria-current={ariaCurrent ? 'page' : undefined}
             className={`${base} ${variants[variant]} ${className}`}
         >
             {children}

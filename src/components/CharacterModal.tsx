@@ -3,7 +3,7 @@ import { type DisneyCharacter } from '../types/disney'
 import { ChipList } from './ChipList'
 import { Button } from './Button'
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { addTvShowFilter } from '../store/filtersSlice'
+import { setSearchKey, setSearchType } from '../store/filtersSlice'
 
 export const CharacterModal = ({
     character,
@@ -16,7 +16,8 @@ export const CharacterModal = ({
     const modalRef = useRef<HTMLDivElement>(null)
 
     const handleTvShowClick = (show: string) => {
-        dispatch(addTvShowFilter(show))
+        dispatch(setSearchType('tvShows'))
+        dispatch(setSearchKey(show))
         onClose()
     }
 

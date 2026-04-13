@@ -10,7 +10,6 @@ export const urlSyncMiddleware: Middleware = (store) => (next) => (action) => {
 
         if (filters.searchKey) params.set('q', filters.searchKey)
         if (filters.searchType !== 'name') params.set('type', filters.searchType)
-        if (filters.tvShowFilters.length) params.set('shows', filters.tvShowFilters.join(','))
         if (filters.page > 1) params.set('page', String(filters.page))
         if (filters.sortDirection !== 'asc') params.set('sort', filters.sortDirection)
 

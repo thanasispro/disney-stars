@@ -24,7 +24,7 @@ export const Pagination = ({
     const pages = totalPages ? getPageNumbers(page, totalPages) : []
 
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3">
+        <nav aria-label="Pagination" className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3">
             <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-gray-400">Show</span>
                 <select
@@ -42,7 +42,7 @@ export const Pagination = ({
             </div>
 
             {totalPages && (
-                <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap" aria-live="polite">
                     Page {page} of {totalPages}
                 </span>
             )}
@@ -56,13 +56,15 @@ export const Pagination = ({
                     <div className="hidden sm:flex items-center gap-1">
                         {pages.map((p, i) =>
                             p === '…' ? (
-                                <span key={`ellipsis-${i}`} className="w-8 h-8 flex items-center justify-center text-gray-400">…</span>
+                                <span key={`ellipsis-${i}`} aria-hidden="true" className="w-8 h-8 flex items-center justify-center text-gray-400">…</span>
                             ) : (
                                 <Button
                                     key={p}
                                     onClick={() => dispatch(setPage(p as number))}
                                     disabled={isLoading}
                                     variant={p === page ? 'gold' : 'ghost'}
+                                    ariaLabel={p === page ? `Page ${p}, current` : `Go to page ${p}`}
+                                    ariaCurrent={p === page}
                                     className="w-8 h-8 px-0! py-0! flex items-center justify-center"
                                 >
                                     {p}
@@ -76,6 +78,6 @@ export const Pagination = ({
                     </Button>
                 </div>
             )}
-        </div>
+        </nav>
     )
 }

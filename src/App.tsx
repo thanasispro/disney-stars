@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useGetCharactersQuery, disneyAPI } from './api/disneyApi'
+import { useEffect, useMemo } from 'react'
+import { useGetCharactersQuery } from './api/disneyApi'
 import { useAppSelector } from './hooks/useAppSelector'
 import { useAppDispatch } from './hooks/useAppDispatch'
 import { useDebounce } from './hooks/useDebounce'
@@ -15,7 +15,7 @@ import { CharacterModal } from './components/CharacterModal'
 
 export const App = () => {
     const dispatch = useAppDispatch()
-    const { searchKey, searchType, tvShowFilters, page, pageSize, sortDirection } = useAppSelector((s) => s.filters)
+    const { searchKey, searchType, page, pageSize, sortDirection } = useAppSelector((s) => s.filters)
     const { selectedCharacter, isModalOpen } = useAppSelector((s) => s.modal)
     const theme = useAppSelector((s) => s.theme.theme)
 
@@ -25,43 +25,14 @@ export const App = () => {
 
     const debouncedSearch = useDebounce(searchKey, 400)
 
-    const isMultiTvSearch = searchType === 'tvShows' && tvShowFilters.length > 1
-
     const { data, isLoading, isError } = useGetCharactersQuery({
         page,
         pageSize,
-        searchKey: searchType === 'tvShows'
-            ? tvShowFilters.length === 1 ? tvShowFilters[0] : undefined
-            : debouncedSearch || undefined,
+        searchKey: debouncedSearch || undefined,
         searchType,
-    }, { skip: isMultiTvSearch })
+    })
 
-    // Parallel fetches for multiple TV show filters
-    const [multiResults, setMultiResults] = useState<DisneyCharacter[]>([])
-    const [multiLoading, setMultiLoading] = useState(false)
-
-    useEffect(() => {
-        if (!isMultiTvSearch) {
-            setMultiResults([])
-            return
-        }
-
-        setMultiLoading(true)
-
-        Promise.all(
-            tvShowFilters.map((show) =>
-                dispatch(disneyAPI.endpoints.getCharacters.initiate({ page: 1, pageSize: 500, searchKey: show, searchType: 'tvShows' }))
-            )
-        ).then((results) => {
-            const all = results.flatMap((r) => r.data?.data ?? [])
-            const unique = [...new Map(all.map((c) => [c._id, c])).values()]
-            setMultiResults(unique)
-            setMultiLoading(false)
-        })
-    }, [tvShowFilters, isMultiTvSearch, dispatch])
-
-    const characters = isMultiTvSearch ? multiResults : (data?.data ?? [])
-    const loading = isMultiTvSearch ? multiLoading : isLoading
+    const characters = data?.data ?? []
 
     const sorted = useMemo(() =>
         [...characters].sort((a, b) =>
@@ -99,20 +70,17 @@ export const App = () => {
                         <SearchForm />
                         <CharacterTable
                             characters={sorted}
-                            isLoading={loading}
+                            isLoading={isLoading}
                             sortDirection={sortDirection}
                             onSort={() => dispatch(toggleSort())}
                             onRowClick={(c: DisneyCharacter) => dispatch(openModal(c))}
                         />
-                        <Pagination
-                            totalPages={isMultiTvSearch ? undefined : data?.info.totalPages}
-                            isLoading={loading}
-                        />
+                        <Pagination totalPages={data?.info.totalPages} isLoading={isLoading} />
                     </div>
 
                     <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md p-6">
                         <h2 className="text-lg font-semibold text-blue-950 dark:text-white mb-4 tracking-wide">🎬 Films per Character</h2>
-                        <MoviesPieChart characters={sorted} isLoading={loading} />
+                        <MoviesPieChart characters={sorted} isLoading={isLoading} />
                     </div>
                 </div>
             </main>
