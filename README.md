@@ -13,7 +13,7 @@ Browse, search and explore Disney characters — filter by TV show, view film st
 - **Pagination** with configurable page size
 - **Shareable URLs** — search, sort, and page state persisted to URL params
 - **Character modal** — image, TV shows (clickable), and video games for each character
-- **Films pie chart** — top 30 characters by film count, with optional short films toggle
+- **Films chart** — top 30 characters by film count, toggle between pie and bar chart, with optional short films toggle
 - **Export to XLSX** — download the current character list as a spreadsheet
 - **Dark mode** — toggle via the header switch
 - **Accessible** — keyboard navigation, ARIA labels, focus trap, pagination landmark, sufficient contrast ratios

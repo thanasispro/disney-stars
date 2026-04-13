@@ -3,6 +3,7 @@ import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { setSearchKey, setSearchType } from '../store/filtersSlice'
 import { type SearchType } from '../types/disney'
+import { SegmentedControl } from './SegmentedControl'
 
 export const SearchForm = () => {
     const dispatch = useAppDispatch()
@@ -10,23 +11,15 @@ export const SearchForm = () => {
     return (
         <form role="search" onSubmit={(e) => e.preventDefault()} className="px-4 py-3">
             <div className="flex gap-2 items-center">
-                <div role="group" aria-label="Search by" className="flex rounded-lg border border-blue-200 dark:border-slate-600 overflow-hidden shrink-0 text-sm">
-                    {(['name', 'tvShows'] as SearchType[]).map((type) => (
-                        <button
-                            key={type}
-                            type="button"
-                            onClick={() => dispatch(setSearchType(type))}
-                            aria-pressed={searchType === type}
-                            className={`px-3 py-2 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-                                searchType === type
-                                    ? 'bg-blue-600 text-white font-medium'
-                                    : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-700'
-                            }`}
-                        >
-                            {type === 'name' ? 'Name' : 'TV Show'}
-                        </button>
-                    ))}
-                </div>
+                <SegmentedControl
+                    ariaLabel="Search by"
+                    value={searchType}
+                    onChange={(type) => dispatch(setSearchType(type))}
+                    options={[
+                        { value: 'name' as SearchType, label: 'Name' },
+                        { value: 'tvShows' as SearchType, label: 'TV Show' },
+                    ]}
+                />
 
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />

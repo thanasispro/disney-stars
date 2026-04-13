@@ -2,15 +2,20 @@ import { useState, useEffect } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import 'highcharts/modules/accessibility'
+import { PieChart, BarChart2 } from 'lucide-react'
+import { SegmentedControl } from './SegmentedControl'
 import { type DisneyCharacter } from '../types/disney'
 import { exportCharactersToXlsx } from '../utils/exportXlsx'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Button } from './Button'
 
+type ChartType = 'pie' | 'bar'
+
 const MAX_SLICES = 30
 
 export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCharacter[], isLoading: boolean }) => {
     const [includeShortFilms, setIncludeShortFilms] = useState(false)
+    const [chartType, setChartType] = useState<ChartType>('pie')
     const [chartHeight, setChartHeight] = useState(window.innerWidth < 768 ? 280 : 380)
     const isDark = useAppSelector((s) => s.theme.theme) === 'dark'
 
@@ -42,12 +47,21 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
 
     const options: Highcharts.Options = {
         chart: {
-            type: 'pie',
+            type: chartType,
             backgroundColor: 'transparent',
             height: chartHeight,
-            animation: { duration: 800, easing: 'easeOutBounce' },
+            animation: { duration: 400 },
         },
         title: { text: undefined },
+        xAxis: chartType === 'bar' ? {
+            type: 'category',
+            labels: { style: { color: labelColor, fontSize: '11px' } },
+        } : undefined,
+        yAxis: chartType === 'bar' ? {
+            title: { text: 'Films', style: { color: labelColor } },
+            labels: { style: { color: labelColor } },
+            gridLineColor: isDark ? '#334155' : '#e5e7eb',
+        } : undefined,
         tooltip: {
             formatter() {
                 const point = this as unknown as Highcharts.Point & { films: string[]; shortFilms: string[]; percentage: number }
@@ -55,8 +69,9 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
                 const shortFilmList = includeShortFilms && point.shortFilms.length
                     ? `<br/><b>Short Films:</b> ${point.shortFilms.join(', ')}`
                     : ''
-                if (!filmList && !shortFilmList) return `<b>${point.name}</b><br/>${point.percentage?.toFixed(1)}% of total`
-                return `<b>${point.name}</b><br/>${point.percentage?.toFixed(1)}% of total${filmList}${shortFilmList}`
+                const pct = point.percentage != null ? `${point.percentage.toFixed(1)}% of total` : `${point.y} films`
+                if (!filmList && !shortFilmList) return `<b>${point.name}</b><br/>${pct}`
+                return `<b>${point.name}</b><br/>${pct}${filmList}${shortFilmList}`
             },
         },
         plotOptions: {
@@ -69,14 +84,20 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
                 },
                 animation: { duration: 800 },
             },
+            bar: {
+                dataLabels: { enabled: false },
+                animation: { duration: 800 },
+                colorByPoint: true,
+            },
         },
-        series: [{ type: 'pie', data }],
+        series: [{ type: chartType, data }],
         accessibility: {
             enabled: true,
             point: {
                 valueDescriptionFormat: '{point.name}: {point.percentage:.1f}% of total films',
             },
         },
+        legend: { enabled: false },
         credits: { enabled: false },
     }
 
@@ -95,9 +116,21 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
                     Include Short Films
                 </label>
 
-                <Button onClick={() => exportCharactersToXlsx(characters)} variant="secondary" disabled={isLoading || !data.length}>
-                    Export XLSX
-                </Button>
+                <div className="flex items-center gap-2">
+                    <SegmentedControl
+                        ariaLabel="Chart type"
+                        value={chartType}
+                        onChange={setChartType}
+                        disabled={isLoading}
+                        options={[
+                            { value: 'pie' as ChartType, label: <PieChart className="w-3.5 h-3.5" />, ariaLabel: 'Pie chart' },
+                            { value: 'bar' as ChartType, label: <BarChart2 className="w-3.5 h-3.5" />, ariaLabel: 'Bar chart' },
+                        ]}
+                    />
+                    <Button onClick={() => exportCharactersToXlsx(characters)} variant="secondary" disabled={isLoading || !data.length}>
+                        Export XLSX
+                    </Button>
+                </div>
             </div>
 
             {isLoading
