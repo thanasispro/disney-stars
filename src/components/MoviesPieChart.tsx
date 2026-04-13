@@ -61,6 +61,7 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
             title: { text: 'Films', style: { color: labelColor } },
             labels: { style: { color: labelColor } },
             gridLineColor: isDark ? '#334155' : '#e5e7eb',
+            allowDecimals: false,
         } : undefined,
         tooltip: {
             formatter() {
