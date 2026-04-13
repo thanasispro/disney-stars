@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+import 'highcharts/modules/accessibility'
 import { type DisneyCharacter } from '../types/disney'
 import { exportCharactersToXlsx } from '../utils/exportXlsx'
 import { useAppSelector } from '../hooks/useAppSelector'
@@ -48,15 +49,14 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
         },
         title: { text: undefined },
         tooltip: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            formatter(this: any) {
-                const point = this.point as Highcharts.Point & { films: string[]; shortFilms: string[] }
-                if (!point.films.length) return `<b>${this.point.name}</b><br/>${this.percentage?.toFixed(1)}% of total`
-                const filmList = point.films.join(', ')
+            formatter() {
+                const point = this as unknown as Highcharts.Point & { films: string[]; shortFilms: string[]; percentage: number }
+                const filmList = point.films.length ? `<br/><b>Films:</b> ${point.films.join(', ')}` : ''
                 const shortFilmList = includeShortFilms && point.shortFilms.length
                     ? `<br/><b>Short Films:</b> ${point.shortFilms.join(', ')}`
                     : ''
-                return `<b>${this.point.name}</b><br/>${this.percentage?.toFixed(1)}% of total<br/><b>Films:</b> ${filmList}${shortFilmList}`
+                if (!filmList && !shortFilmList) return `<b>${point.name}</b><br/>${point.percentage?.toFixed(1)}% of total`
+                return `<b>${point.name}</b><br/>${point.percentage?.toFixed(1)}% of total${filmList}${shortFilmList}`
             },
         },
         plotOptions: {
@@ -71,7 +71,12 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
             },
         },
         series: [{ type: 'pie', data }],
-        accessibility: { enabled: false },
+        accessibility: {
+            enabled: true,
+            point: {
+                valueDescriptionFormat: '{point.name}: {point.percentage:.1f}% of total films',
+            },
+        },
         credits: { enabled: false },
     }
 
@@ -97,7 +102,7 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
 
             {isLoading
                 ? <div className="animate-pulse h-96 rounded-lg bg-gray-100 dark:bg-gray-800" />
-                : data.length < 2
+                : !data.length
                 ? <div className="flex items-center justify-center h-48 text-gray-400 dark:text-gray-500 text-sm">No film data available for the current characters.</div>
                 : <HighchartsReact highcharts={Highcharts} options={options} />
             }
