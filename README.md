@@ -1,6 +1,6 @@
 # Disney Stars
 
-**Live site:** _coming soon_
+**Live site:** https://thanasispro.github.io/disney-stars
 
 Browse, search and explore Disney characters — filter by TV show, view film stats, and export data.
 

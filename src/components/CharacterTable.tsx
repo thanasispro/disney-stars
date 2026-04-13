@@ -20,6 +20,7 @@ const StarRating = ({ score }: { score: number }) => {
             {Array.from({ length: 5 }, (_, i) => (
                 <Star
                     key={i}
+                    aria-hidden="true"
                     className={`w-3 h-3 ${i < stars ? 'text-amber-400 fill-amber-400' : 'text-gray-200 dark:text-gray-600 fill-current'}`}
                 />
             ))}
@@ -65,7 +66,7 @@ export const CharacterTable = ({
     }, [characters])
 
     return (
-        <div ref={scrollRef} className="overflow-x-auto overflow-y-auto max-h-150 rounded-lg border border-blue-100 dark:border-slate-700">
+        <div ref={scrollRef} className="overflow-x-auto overflow-y-auto min-h-96 max-h-150 rounded-lg border border-blue-100 dark:border-slate-700">
             <table className="w-full text-sm text-left">
                 <thead className="sticky top-0 z-10 bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-slate-300 uppercase text-xs">
                     <tr>
