@@ -21,9 +21,10 @@ export const CharacterModal = ({
         onClose()
     }
 
-    // Lock body scroll
+    // Lock body scroll + focus modal on open
     useEffect(() => {
         document.body.style.overflow = 'hidden'
+        modalRef.current?.focus()
         return () => { document.body.style.overflow = '' }
     }, [])
 
@@ -33,11 +34,6 @@ export const CharacterModal = ({
         document.addEventListener('keydown', onKey)
         return () => document.removeEventListener('keydown', onKey)
     }, [onClose])
-
-    // Focus trap — focus modal on open
-    useEffect(() => {
-        modalRef.current?.focus()
-    }, [])
 
     return (
         <div
@@ -60,6 +56,7 @@ export const CharacterModal = ({
                             <img
                                 src={character.imageUrl}
                                 alt={character.name}
+                                onError={(e) => { e.currentTarget.style.display = 'none' }}
                                 className="w-16 h-16 rounded-full object-cover bg-gray-100 dark:bg-gray-800"
                             />
                         )}

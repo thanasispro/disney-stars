@@ -1,3 +1,4 @@
+import { Wand2 } from 'lucide-react'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { toggleTheme } from '../store/themeSlice'
@@ -11,9 +12,12 @@ export const Header = () => {
             <div>
                 <h1
                     style={{ fontFamily: "'Cinzel', serif" }}
-                    className="text-2xl font-bold text-white tracking-widest"
+                    className="text-2xl font-bold text-white tracking-widest leading-none"
                 >
-                    ✨ Disney Stars
+                    <span className="flex items-center gap-2">
+                        <Wand2 className="w-6 h-6 text-amber-400 shrink-0" />
+                        <span>Disney Stars</span>
+                    </span>
                 </h1>
                 <p className="hidden sm:block text-sm text-blue-300 mt-0.5">Explore Disney characters</p>
             </div>

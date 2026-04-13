@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { setSearchKey, setSearchType } from '../store/filtersSlice'
@@ -28,7 +29,7 @@ export const SearchForm = () => {
                 </div>
 
                 <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">🔍</span>
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
                     <input
                         type="text"
                         value={searchKey}

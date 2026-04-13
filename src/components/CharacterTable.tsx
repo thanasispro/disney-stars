@@ -1,10 +1,34 @@
 import { useEffect, useRef } from 'react'
+import { Star } from 'lucide-react'
 import { type DisneyCharacter, type SortDirection } from '../types/disney'
 import { ChipList } from './ChipList'
 
-const SkeletonRow = ({ index }: { index: number }) => (
+const popularityStars = (score: number): number => {
+    if (score > 20) return 5
+    if (score > 15) return 4
+    if (score > 10) return 3
+    if (score > 5) return 2
+    if (score > 0) return 1
+    return 0
+}
+
+const StarRating = ({ score }: { score: number }) => {
+    const stars = popularityStars(score)
+    if (stars === 0) return null
+    return (
+        <span className="flex items-center gap-0.5 ml-1.5" aria-label={`Popularity: ${stars} out of 5`}>
+            {Array.from({ length: 5 }, (_, i) => (
+                <Star
+                    key={i}
+                    className={`w-3 h-3 ${i < stars ? 'text-amber-400 fill-amber-400' : 'text-gray-200 dark:text-gray-600 fill-current'}`}
+                />
+            ))}
+        </span>
+    )
+}
+
+const SkeletonRow = () => (
     <tr className="animate-pulse">
-        <td className="px-4 py-3 text-gray-400 dark:text-gray-500">{index}</td>
         <td className="px-4 py-3">
             <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-700" />
         </td>
@@ -45,7 +69,6 @@ export const CharacterTable = ({
             <table className="w-full text-sm text-left">
                 <thead className="sticky top-0 z-10 bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-slate-300 uppercase text-xs">
                     <tr>
-                        <th className="px-4 py-3 w-12">#</th>
                         <th
                             className="px-4 py-3 cursor-pointer select-none hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                             onClick={onSort}
@@ -55,19 +78,19 @@ export const CharacterTable = ({
                         >
                             Character {sortDirection === 'asc' ? '↑' : '↓'}
                         </th>
-                        <th className="px-4 py-3">TV Shows</th>
-                        <th className="px-4 py-3">Video Games</th>
+                        <th className="px-4 py-3" title="TV Shows"># TV</th>
+                        <th className="px-4 py-3" title="Video Games"># Games</th>
                         <th className="px-4 py-3">Allies</th>
                         <th className="px-4 py-3">Enemies</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                     {isLoading
-                        ? Array.from({ length: 10 }).map((_, i) => <SkeletonRow key={i} index={i + 1} />)
+                        ? Array.from({ length: 10 }).map((_, i) => <SkeletonRow key={i} />)
                         : !characters.length
                         ? (
                             <tr>
-                                <td colSpan={6} className="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
+                                <td colSpan={5} className="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
                                     No characters found
                                 </td>
                             </tr>
@@ -82,9 +105,11 @@ export const CharacterTable = ({
                                 aria-label={`View details for ${character.name}`}
                                 className={`cursor-pointer hover:bg-indigo-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400 ${index % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-blue-50/40 dark:bg-slate-800/40'}`}
                             >
-                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{index + 1}</td>
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                                    {character.name}
+                                    <span className="flex items-center">
+                                        {character.name}
+                                        <StarRating score={character.tvShows.length + character.videoGames.length} />
+                                    </span>
                                 </td>
                                 <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
                                     {character.tvShows.length}

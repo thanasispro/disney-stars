@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { AlertTriangle, Clapperboard } from 'lucide-react'
 import { useGetCharactersQuery } from './api/disneyApi'
 import { useAppSelector } from './hooks/useAppSelector'
 import { useAppDispatch } from './hooks/useAppDispatch'
@@ -47,7 +48,7 @@ export const App = () => {
             <Header />
             <div className="flex items-center justify-center h-[calc(100vh-65px)]">
                 <div className="text-center space-y-3">
-                    <p className="text-4xl">⚠️</p>
+                    <AlertTriangle className="w-10 h-10 text-yellow-500" />
                     <p className="text-lg font-semibold text-gray-900 dark:text-white">Failed to load characters</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Check your connection and try refreshing the page.</p>
                     <button
@@ -79,7 +80,7 @@ export const App = () => {
                     </div>
 
                     <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md p-6">
-                        <h2 className="text-lg font-semibold text-blue-950 dark:text-white mb-4 tracking-wide">🎬 Films per Character</h2>
+                        <h2 className="text-lg font-semibold text-blue-950 dark:text-white mb-4 tracking-wide flex items-center gap-2"><Clapperboard className="w-5 h-5" /> Films per Character</h2>
                         <MoviesPieChart characters={sorted} isLoading={isLoading} />
                     </div>
                 </div>

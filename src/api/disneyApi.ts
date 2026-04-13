@@ -9,7 +9,7 @@ export type RawApiResponse = {
 export const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 export const normalizeResponse = (response: RawApiResponse): DisneyApiResponse => ({
-    info: response.info,
+    ...response,
     data: Array.isArray(response.data) ? response.data : [response.data],
 })
 
