@@ -10,7 +10,7 @@ export const SearchForm = () => {
     const { searchKey, searchType } = useAppSelector((state) => state.filters)
     return (
         <form role="search" onSubmit={(e) => e.preventDefault()} className="px-4 py-3">
-            <div className="flex gap-2 items-center">
+            <div className="flex flex-col sm:flex-row gap-2 sm:items-center items-center">
                 <SegmentedControl
                     ariaLabel="Search by"
                     value={searchType}
@@ -21,7 +21,7 @@ export const SearchForm = () => {
                     ]}
                 />
 
-                <div className="relative flex-1">
+                <div className="relative w-full sm:flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
                     <input
                         type="text"
