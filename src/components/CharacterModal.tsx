@@ -19,6 +19,7 @@ export const CharacterModal = ({
         dispatch(setSearchType('tvShows'))
         dispatch(setSearchKey(show))
         onClose()
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
     // Lock body scroll + focus modal on open
