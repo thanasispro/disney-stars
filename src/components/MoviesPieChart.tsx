@@ -16,11 +16,15 @@ const MAX_SLICES = 30
 export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCharacter[], isLoading: boolean }) => {
     const [includeShortFilms, setIncludeShortFilms] = useState(false)
     const [chartType, setChartType] = useState<ChartType>('pie')
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
     const [chartHeight, setChartHeight] = useState(window.innerWidth < 768 ? 280 : 380)
     const isDark = useAppSelector((s) => s.theme.theme) === 'dark'
 
     useEffect(() => {
-        const onResize = () => setChartHeight(window.innerWidth < 768 ? 280 : 380)
+        const onResize = () => {
+            setIsMobile(window.innerWidth < 768)
+            setChartHeight(window.innerWidth < 768 ? 280 : 380)
+        }
         window.addEventListener('resize', onResize)
         return () => window.removeEventListener('resize', onResize)
     }, [])
@@ -79,7 +83,7 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
             pie: {
                 innerSize: '50%',
                 dataLabels: {
-                    enabled: true,
+                    enabled: !isMobile,
                     style: { color: labelColor, fontSize: '12px' },
                     format: '{point.name}',
                 },

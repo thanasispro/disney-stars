@@ -109,7 +109,7 @@ export const CharacterTable = ({
                                 <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
                                     <span className="flex items-center">
                                         {character.name}
-                                        <StarRating score={character.tvShows.length + character.videoGames.length} />
+                                        <StarRating score={character.tvShows.length + character.videoGames.length + character.films.length + character.shortFilms.length + character.parkAttractions.length} />
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 text-gray-700 dark:text-gray-300">

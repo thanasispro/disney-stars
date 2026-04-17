@@ -81,6 +81,41 @@ export const CharacterModal = ({
                         </h3>
                         <ChipList items={character.videoGames} />
                     </section>
+
+                    {(character.films.length > 0 || character.shortFilms.length > 0 || character.parkAttractions.length > 0) && (
+                        <details className="group">
+                            <summary className="cursor-pointer text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 list-none flex items-center gap-1 select-none">
+                                <span className="transition-transform group-open:rotate-90">▶</span>
+                                See more
+                            </summary>
+                            <div className="mt-4 space-y-6">
+                                {character.films.length > 0 && (
+                                    <section>
+                                        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
+                                            Films ({character.films.length})
+                                        </h3>
+                                        <ChipList items={character.films} />
+                                    </section>
+                                )}
+                                {character.shortFilms.length > 0 && (
+                                    <section>
+                                        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
+                                            Short Films ({character.shortFilms.length})
+                                        </h3>
+                                        <ChipList items={character.shortFilms} />
+                                    </section>
+                                )}
+                                {character.parkAttractions.length > 0 && (
+                                    <section>
+                                        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
+                                            Park Attractions ({character.parkAttractions.length})
+                                        </h3>
+                                        <ChipList items={character.parkAttractions} />
+                                    </section>
+                                )}
+                            </div>
+                        </details>
+                    )}
                 </div>
             </div>
         </div>
