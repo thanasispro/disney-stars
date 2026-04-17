@@ -67,7 +67,9 @@ export const CharacterModal = ({
                 </div>
 
                 {/* Body */}
-                <div className="px-6 py-5 space-y-6">
+                {character.tvShows.length === 0 && character.videoGames.length === 0 && character.films.length === 0 && character.shortFilms.length === 0 && character.parkAttractions.length === 0
+                    ? <p className="px-6 py-10 text-sm text-gray-400 dark:text-gray-500 text-center">No data available for this character.</p>
+                    : <div className="px-6 py-5 space-y-6">
                     <section>
                         <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
                             TV Shows ({character.tvShows.length})
@@ -116,7 +118,7 @@ export const CharacterModal = ({
                             </div>
                         </details>
                     )}
-                </div>
+                    </div>}
             </div>
         </div>
     )
