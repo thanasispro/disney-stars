@@ -71,9 +71,14 @@ export const CharacterModal = ({
                     ? <p className="px-6 py-10 text-sm text-gray-400 dark:text-gray-500 text-center">No data available for this character.</p>
                     : <div className="px-6 py-5 space-y-6">
                     <section>
-                        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">
-                            TV Shows ({character.tvShows.length})
-                        </h3>
+                        <div className="flex items-baseline gap-2 mb-3">
+                            <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">
+                                TV Shows ({character.tvShows.length})
+                            </h3>
+                            {character.tvShows.length > 0 && (
+                                <span className="text-xs text-indigo-400 dark:text-indigo-500">tap to filter</span>
+                            )}
+                        </div>
                         <ChipList items={character.tvShows} onItemClick={handleTvShowClick} />
                     </section>
 

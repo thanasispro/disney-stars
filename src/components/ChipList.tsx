@@ -11,7 +11,7 @@ const Chip = ({ label, maxChars, onClick }: { label: string; maxChars?: number; 
                 tabIndex={isClickable ? 0 : undefined}
                 onClick={() => onClick?.(label)}
                 onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(label)}
-                className={`inline-block px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 ${isClickable ? 'cursor-pointer hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors' : 'cursor-default'}`}
+                className={`inline-block px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 ${isClickable ? 'cursor-pointer hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors underline underline-offset-2 decoration-indigo-400' : 'cursor-default'}`}
             >
                 {truncated}
             </span>
