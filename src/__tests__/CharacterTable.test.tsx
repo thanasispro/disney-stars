@@ -7,6 +7,7 @@ import { mockCharacters } from '../test/mockData'
 const defaultProps = {
     characters: [],
     isLoading: false,
+    sortKey: 'name' as const,
     sortDirection: 'asc' as const,
     onSort: vi.fn(),
     onRowClick: vi.fn(),
@@ -51,7 +52,7 @@ describe('CharacterTable', () => {
         render(<CharacterTable {...defaultProps} onSort={onSort} />)
 
         await user.click(screen.getByRole('columnheader', { name: /character/i }))
-        expect(onSort).toHaveBeenCalledTimes(1)
+        expect(onSort).toHaveBeenCalledWith('name')
     })
 
     it('displays correct tv show and video game counts', () => {

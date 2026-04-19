@@ -34,3 +34,4 @@ export interface CharacterQueryParams {
 }
 
 export type SortDirection = 'asc' | 'desc'
+export type SortKey = 'name' | 'tvShows' | 'videoGames'
