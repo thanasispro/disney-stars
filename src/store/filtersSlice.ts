@@ -15,7 +15,7 @@ const initialState: FiltersState = {
     searchKey: params.get('q') ?? '',
     searchType: (params.get('type') as SearchType) ?? 'name',
     page: Number(params.get('page')) || 1,
-    pageSize: 50,
+    pageSize: Number(params.get('pageSize')) || 50,
     sortDirection: (params.get('sort') as SortDirection) ?? 'asc',
 }
 

@@ -64,27 +64,29 @@ export const App = () => {
 
     return (
         <div className="min-h-screen bg-blue-50 dark:bg-slate-950">
-            <Header />
-            <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-                <div className="space-y-6">
-                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md">
-                        <SearchForm />
-                        <CharacterTable
-                            characters={sorted}
-                            isLoading={isLoading}
-                            sortDirection={sortDirection}
-                            onSort={() => dispatch(toggleSort())}
-                            onRowClick={(c: DisneyCharacter) => dispatch(openModal(c))}
-                        />
-                        <Pagination totalPages={data?.info.totalPages} isLoading={isLoading} />
-                    </div>
+            <div aria-hidden={isModalOpen || undefined}>
+                <Header />
+                <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+                    <div className="space-y-6">
+                        <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md">
+                            <SearchForm />
+                            <CharacterTable
+                                characters={sorted}
+                                isLoading={isLoading}
+                                sortDirection={sortDirection}
+                                onSort={() => dispatch(toggleSort())}
+                                onRowClick={(c: DisneyCharacter) => dispatch(openModal(c))}
+                            />
+                            <Pagination totalPages={data?.info.totalPages} isLoading={isLoading} />
+                        </div>
 
-                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md p-6">
-                        <h2 className="text-lg font-semibold text-blue-950 dark:text-white mb-4 tracking-wide flex items-center gap-2"><Clapperboard className="w-5 h-5" /> Films per Character</h2>
-                        <MoviesPieChart characters={sorted} isLoading={isLoading} />
+                        <div className="bg-white dark:bg-slate-900 rounded-xl border border-blue-100 dark:border-slate-700 shadow-md p-6">
+                            <h2 className="text-lg font-semibold text-blue-950 dark:text-white mb-4 tracking-wide flex items-center gap-2"><Clapperboard className="w-5 h-5" /> Films per Character</h2>
+                            <MoviesPieChart characters={sorted} isLoading={isLoading} />
+                        </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
 
             {isModalOpen && selectedCharacter && (
                 <CharacterModal character={selectedCharacter} onClose={() => dispatch(closeModal())} />
