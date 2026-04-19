@@ -1,3 +1,5 @@
+import { splitAtMax } from '../utils/splitAtMax'
+
 const Chip = ({ label, maxChars, onClick }: { label: string; maxChars?: number; onClick?: (label: string) => void }) => {
     const isTruncated = !!maxChars && label.length > maxChars
     const truncated = isTruncated ? label.slice(0, maxChars) + '…' : label
@@ -37,8 +39,9 @@ export const ChipList = ({
 }) => {
     if (!items.length) return <span className="text-gray-400 text-xs">—</span>
 
-    const visible = maxVisible ? items.slice(0, maxVisible) : items
-    const remaining = maxVisible ? items.length - maxVisible : 0
+    const { visible, remaining } = maxVisible
+        ? splitAtMax(items, maxVisible)
+        : { visible: items, remaining: 0 }
 
     return (
         <div className="flex flex-wrap gap-1">

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Star } from 'lucide-react'
-import { type DisneyCharacter, type SortDirection } from '../types/disney'
+import { type DisneyCharacter, type SortDirection, type SortKey } from '../types/disney'
 import { ChipList } from './ChipList'
 
 const popularityStars = (score: number): number => {
@@ -49,14 +49,16 @@ const SkeletonRow = () => (
 export const CharacterTable = ({
     characters,
     isLoading,
+    sortKey,
     sortDirection,
     onSort,
     onRowClick,
 }: {
     characters: DisneyCharacter[]
     isLoading: boolean
+    sortKey: SortKey
     sortDirection: SortDirection
-    onSort: () => void
+    onSort: (key: SortKey) => void
     onRowClick: (character: DisneyCharacter) => void
 }) => {
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -70,17 +72,24 @@ export const CharacterTable = ({
             <table className="w-full text-sm text-left">
                 <thead className="sticky top-0 z-10 bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-slate-300 uppercase text-xs">
                     <tr>
-                        <th
-                            className="px-4 py-3 cursor-pointer select-none hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-                            onClick={onSort}
-                            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSort()}
-                            tabIndex={0}
-                            aria-sort={sortDirection === 'asc' ? 'ascending' : 'descending'}
-                        >
-                            Character {sortDirection === 'asc' ? '↑' : '↓'}
-                        </th>
-                        <th className="px-4 py-3" title="TV Shows"># TV</th>
-                        <th className="px-4 py-3" title="Video Games"># Games</th>
+                        {(['name', 'tvShows', 'videoGames'] as SortKey[]).map((key) => {
+                            const label = key === 'name' ? 'Character' : key === 'tvShows' ? '# TV' : '# Games'
+                            const title = key === 'tvShows' ? 'TV Shows' : key === 'videoGames' ? 'Video Games' : undefined
+                            const isActive = sortKey === key
+                            return (
+                                <th
+                                    key={key}
+                                    title={title}
+                                    className="px-4 py-3 cursor-pointer select-none hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                                    onClick={() => onSort(key)}
+                                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSort(key)}
+                                    tabIndex={0}
+                                    aria-sort={isActive ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
+                                >
+                                    {label} {isActive ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}
+                                </th>
+                            )
+                        })}
                         <th className="px-4 py-3">Allies</th>
                         <th className="px-4 py-3">Enemies</th>
                     </tr>

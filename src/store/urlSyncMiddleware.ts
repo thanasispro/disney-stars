@@ -12,6 +12,7 @@ export const urlSyncMiddleware: Middleware = (store) => (next) => (action) => {
         if (filters.searchType !== 'name') params.set('type', filters.searchType)
         if (filters.page > 1) params.set('page', String(filters.page))
         if (filters.pageSize !== 50) params.set('pageSize', String(filters.pageSize))
+        if (filters.sortKey !== 'name') params.set('sortKey', filters.sortKey)
         if (filters.sortDirection !== 'asc') params.set('sort', filters.sortDirection)
 
         const search = params.toString()

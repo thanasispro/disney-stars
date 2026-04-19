@@ -8,10 +8,17 @@ import { type DisneyCharacter } from '../types/disney'
 import { exportCharactersToXlsx } from '../utils/exportXlsx'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Button } from './Button'
+import { splitAtMax } from '../utils/splitAtMax'
 
 type ChartType = 'pie' | 'bar'
 
 const MAX_SLICES = 30
+const MAX_TOOLTIP_ITEMS = 5
+
+const formatTooltipList = (items: string[]) => {
+    const { visible, remaining } = splitAtMax(items, MAX_TOOLTIP_ITEMS)
+    return remaining ? `${visible.join(', ')} +${remaining} more` : visible.join(', ')
+}
 
 export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCharacter[], isLoading: boolean }) => {
     const [includeShortFilms, setIncludeShortFilms] = useState(false)
@@ -41,10 +48,9 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
 
     const top = all.slice(0, MAX_SLICES)
     const others = all.slice(MAX_SLICES)
-    const othersTotal = others.reduce((sum, c) => sum + c.y, 0)
 
-    const data = othersTotal > 0
-        ? [...top, { name: `Others (${others.length})`, y: othersTotal, films: [], shortFilms: [] }]
+    const data = others.length
+        ? [...top, { name: `Others (${others.length})`, y: others.reduce((sum, c) => sum + c.y, 0), films: [], shortFilms: [] }]
         : top
 
     const labelColor = isDark ? '#d1d5db' : '#374151'
@@ -70,9 +76,9 @@ export const MoviesPieChart = ({ characters, isLoading }: { characters: DisneyCh
         tooltip: {
             formatter() {
                 const point = this as unknown as Highcharts.Point & { films: string[]; shortFilms: string[]; percentage: number }
-                const filmList = point.films.length ? `<br/><b>Films:</b> ${point.films.join(', ')}` : ''
+                const filmList = point.films.length ? `<br/><b>Films:</b> ${formatTooltipList(point.films)}` : ''
                 const shortFilmList = includeShortFilms && point.shortFilms.length
-                    ? `<br/><b>Short Films:</b> ${point.shortFilms.join(', ')}`
+                    ? `<br/><b>Short Films:</b> ${formatTooltipList(point.shortFilms)}`
                     : ''
                 const pct = point.percentage != null ? `${point.percentage.toFixed(1)}% of total` : `${point.y} films`
                 if (!filmList && !shortFilmList) return `<b>${point.name}</b><br/>${pct}`

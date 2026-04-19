@@ -6,7 +6,7 @@ import { useAppDispatch } from './hooks/useAppDispatch'
 import { useDebounce } from './hooks/useDebounce'
 import { toggleSort } from './store/filtersSlice'
 import { openModal, closeModal } from './store/modalSlice'
-import { type DisneyCharacter } from './types/disney'
+import { type DisneyCharacter, type SortKey } from './types/disney'
 import { Header } from './components/Header'
 import { SearchForm } from './components/SearchForm'
 import { CharacterTable } from './components/CharacterTable'
@@ -16,7 +16,7 @@ import { CharacterModal } from './components/CharacterModal'
 
 export const App = () => {
     const dispatch = useAppDispatch()
-    const { searchKey, searchType, page, pageSize, sortDirection } = useAppSelector((s) => s.filters)
+    const { searchKey, searchType, page, pageSize, sortKey, sortDirection } = useAppSelector((s) => s.filters)
     const { selectedCharacter, isModalOpen } = useAppSelector((s) => s.modal)
     const theme = useAppSelector((s) => s.theme.theme)
 
@@ -36,12 +36,13 @@ export const App = () => {
     const characters = data?.data ?? []
 
     const sorted = useMemo(() =>
-        [...characters].sort((a, b) =>
-            sortDirection === 'asc'
-                ? a.name.localeCompare(b.name)
-                : b.name.localeCompare(a.name)
-        )
-    , [characters, sortDirection])
+        [...characters].sort((a, b) => {
+            const dir = sortDirection === 'asc' ? 1 : -1
+            if (sortKey === 'tvShows') return (a.tvShows.length - b.tvShows.length) * dir
+            if (sortKey === 'videoGames') return (a.videoGames.length - b.videoGames.length) * dir
+            return a.name.localeCompare(b.name) * dir
+        })
+    , [characters, sortKey, sortDirection])
 
     if (isError) return (
         <div className="min-h-screen bg-blue-50 dark:bg-slate-950">
@@ -73,8 +74,9 @@ export const App = () => {
                             <CharacterTable
                                 characters={sorted}
                                 isLoading={isLoading}
+                                sortKey={sortKey}
                                 sortDirection={sortDirection}
-                                onSort={() => dispatch(toggleSort())}
+                                onSort={(key: SortKey) => dispatch(toggleSort(key))}
                                 onRowClick={(c: DisneyCharacter) => dispatch(openModal(c))}
                             />
                             <Pagination totalPages={data?.info.totalPages} isLoading={isLoading} />

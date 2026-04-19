@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { type SortDirection, type SearchType } from '../types/disney'
+import { type SortDirection, type SortKey, type SearchType } from '../types/disney'
 
 interface FiltersState {
     searchKey: string
     searchType: SearchType
     page: number
     pageSize: number
+    sortKey: SortKey
     sortDirection: SortDirection
 }
 
@@ -16,6 +17,7 @@ const initialState: FiltersState = {
     searchType: (params.get('type') as SearchType) ?? 'name',
     page: Number(params.get('page')) || 1,
     pageSize: Number(params.get('pageSize')) || 50,
+    sortKey: (params.get('sortKey') as SortKey) ?? 'name',
     sortDirection: (params.get('sort') as SortDirection) ?? 'asc',
 }
 
@@ -39,8 +41,13 @@ const filtersSlice = createSlice({
             state.pageSize = action.payload
             state.page = 1
         },
-        toggleSort: (state) => {
-            state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc'
+        toggleSort: (state, action: PayloadAction<SortKey>) => {
+            if (state.sortKey === action.payload) {
+                state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc'
+            } else {
+                state.sortKey = action.payload
+                state.sortDirection = 'asc'
+            }
         },
     },
 })
