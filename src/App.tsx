@@ -64,7 +64,7 @@ export const App = () => {
 
     return (
         <div className="min-h-screen bg-blue-50 dark:bg-slate-950">
-            <div aria-hidden={isModalOpen || undefined}>
+            <div aria-hidden={isModalOpen || undefined} {...(isModalOpen ? { inert: '' } : {})}>
                 <Header />
                 <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
                     <div className="space-y-6">
