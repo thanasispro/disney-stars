@@ -3,6 +3,7 @@ import { Star } from 'lucide-react'
 import { type DisneyCharacter, type SortDirection } from '../types/disney'
 import { ChipList } from './ChipList'
 
+// Simple heuristic to convert total appearances into a 5-star popularity rating
 const popularityStars = (score: number): number => {
     if (score > 20) return 5
     if (score > 15) return 4

@@ -19,7 +19,7 @@ export const Button = ({
     ariaCurrent?: boolean
     className?: string
 }) => {
-    const base = 'px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed'
+    const base = 'inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed whitespace-nowrap'
 
     const variants: Record<ButtonVariant, string> = {
         primary: 'bg-blue-600 text-white hover:bg-blue-700',

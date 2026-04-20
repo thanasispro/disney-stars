@@ -27,6 +27,7 @@ export const disneyAPI = createApi({
                     ...(searchKey && searchType === 'tvShows' && { tvShows: escapeRegex(searchKey) }),
                 },
             }),
+            keepUnusedDataFor: 600, // cache results for 10 minutes
             transformResponse: normalizeResponse,
         })
     })

@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { setPage, setPageSize } from '../store/filtersSlice'
@@ -50,7 +51,7 @@ export const Pagination = ({
             {totalPages && totalPages > 1 && (
                 <div className="flex items-center gap-1">
                     <Button onClick={() => dispatch(setPage(page - 1))} disabled={page === 1 || isLoading} ariaLabel="Previous page">
-                        ← Prev
+                        <span><ArrowLeft className='w-4 h-4'/></span> Prev
                     </Button>
 
                     <div className="hidden sm:flex items-center gap-1">
@@ -74,7 +75,7 @@ export const Pagination = ({
                     </div>
 
                     <Button onClick={() => dispatch(setPage(page + 1))} disabled={page === totalPages || isLoading} ariaLabel="Next page">
-                        Next →
+                        Next <span><ArrowRight className='w-4 h-4'/></span>
                     </Button>
                 </div>
             )}
